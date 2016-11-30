@@ -16,7 +16,7 @@ object LatentDirichletAllocationExample {
 
     val conf = new SparkConf().setAppName("LatentDirichletAllocationExample")
     val sc = new SparkContext(conf)
-    val hdfs_dir = "hdfs:///hbase2hdfs/testLDA"
+    val hdfs_dir = "hdfs:///chenrui/testLDA"
 
     val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/*/*").map(_._2)
 
@@ -68,5 +68,4 @@ object LatentDirichletAllocationExample {
     sc.stop()
   }
 
-  // scalastyle:on println
 }
