@@ -16,10 +16,9 @@ object LatentDirichletAllocationExample {
 
     val conf = new SparkConf().setAppName("LatentDirichletAllocationExample")
     val sc = new SparkContext(conf)
-    /*
-
     val hdfs_dir = "hdfs:///hbase2hdfs/testLDA"
 
+    /*
     // $example on$
     // Load and parse the data
     val data = sc.textFile(hdfs_dir + "/sample_lda_data.txt")
@@ -48,7 +47,7 @@ object LatentDirichletAllocationExample {
     */
 
     // Load documents from text files, 1 document per file
-    val corpus: RDD[String] = sc.wholeTextFiles("docs/*.md").map(_._2)
+    val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
 
     // Split each document into a sequence of terms (words)
     val tokenized: RDD[Seq[String]] =
@@ -92,6 +91,8 @@ object LatentDirichletAllocationExample {
         println(s"${vocabArray(term.toInt)}\t$weight")
       }
       println()
+    }
   }
+
+  // scalastyle:on println
 }
-// scalastyle:on println
