@@ -56,7 +56,7 @@ object LatentDirichletAllocationExample {
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
     val termCounts: Array[(String, Long)] =
-    tokenized.flatMap(_.map(_ -> 1L)).reduceByKey(_ + _).collect().sortBy(-_._2)
+    tokenized.flatMap(_.map(_ -> 1L)).reduceByKey(_ + _).collect().sortBy(_._2)
     //   vocabArray: Chosen vocab (removing common terms)
     val numStopwords = 20
     val vocabArray: Array[String] =
