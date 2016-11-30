@@ -47,7 +47,7 @@ object LatentDirichletAllocationExample {
     */
 
     // Load documents from text files, 1 document per file
-    val corpus: RDD[String] = sc.textFile(hdfs_dir + "/mini_newsgroups/")
+    val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
 
     // Split each document into a sequence of terms (words)
     val tokenized: RDD[Seq[String]] =
@@ -55,8 +55,8 @@ object LatentDirichletAllocationExample {
 
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
-    val termCounts: Array[(String, Long)] = tokenized.flatMap(_.map(x => (x, 1L))).reduceByKey(_ + _).collect().sortBy(_._2)
-
+    val termCounts: Array[(String, Long)] =
+    tokenized.flatMap(_.map(_ -> 1L)).reduceByKey(_ + _).collect().sortBy(-_._2)
     //   vocabArray: Chosen vocab (removing common terms)
     val numStopwords = 20
     val vocabArray: Array[String] =
