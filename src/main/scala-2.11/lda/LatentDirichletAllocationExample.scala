@@ -51,7 +51,7 @@ object LatentDirichletAllocationExample {
 
     // Split each document into a sequence of terms (words)
     val tokenized: RDD[Seq[String]] =
-      corpus.map(_.toLowerCase.split(" ")).map(_.filter(_.length > 3).filter(_.forall(java.lang.Character.isLetter)))
+      corpus.map(_.toLowerCase.split("\\s+")).map(_.filter(_.length > 3).filter(_.forall(java.lang.Character.isLetter)))
 
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
