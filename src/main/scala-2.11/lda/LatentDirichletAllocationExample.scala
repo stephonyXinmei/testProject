@@ -61,9 +61,13 @@ object LatentDirichletAllocationExample {
       }
       .reduceByKey(_ + _)
       .collect()
-      .sortBy(_._2)
+        .foreach(x => println("chenrui-log " + x))
 
-    //   vocabArray: Chosen vocab (removing common terms)
+
+      /*
+      .sortBy(_._2)*/
+
+   /* //   vocabArray: Chosen vocab (removing common terms)
     val numStopwords = 20
     val vocabArray: Array[String] =
       termCounts.takeRight(termCounts.size - numStopwords).map(_._1)
@@ -97,7 +101,7 @@ object LatentDirichletAllocationExample {
         println(s"${vocabArray(term.toInt)}\t$weight")
       }
       println()
-    }
+    }*/
   }
 
   // scalastyle:on println
