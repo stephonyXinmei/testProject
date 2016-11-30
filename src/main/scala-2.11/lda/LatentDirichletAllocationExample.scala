@@ -16,7 +16,32 @@ object LatentDirichletAllocationExample {
 
     val conf = new SparkConf().setAppName("LatentDirichletAllocationExample")
     val sc = new SparkContext(conf)
-    val hdfs_dir = "hdfs:///hbase2hdfs/testLDA"
+
+    val hdfs_dir = "/hbase2hdfs/testLDA/"
+
+    // val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
+    sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").saveAsTextFile("/chenrui/lala")
+
+    // Split each document into a sequence of terms (words)
+    /*
+    val tokenized: RDD[Seq[String]] =
+      corpus.map(_.toLowerCase.split("\\s+"))
+        .map(_.filter(_.length > 3))
+        .map{wordlist =>
+
+          wordlist.flatMap{word =>
+            println("chenrui-log " + word)
+            var flag = true
+            for(letter <- word){
+              if(!java.lang.Character.isLetter(letter.toChar))
+                flag = false
+            }
+            if(flag)
+              Some(word)
+            else None
+          }
+        }
+        */
 
     /*
     // $example on$
@@ -47,26 +72,6 @@ object LatentDirichletAllocationExample {
     */
 
     // Load documents from text files, 1 document per file
-    val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
-
-    // Split each document into a sequence of terms (words)
-    val tokenized: RDD[Seq[String]] =
-      corpus.map(_.toLowerCase.split("\\s+"))
-        .map(_.filter(_.length > 3))
-        .map{wordlist =>
-
-          wordlist.flatMap{word =>
-            println("chenrui-log " + word)
-            var flag = true
-            for(letter <- word){
-              if(!java.lang.Character.isLetter(letter.toChar))
-                flag = false
-            }
-            if(flag)
-              Some(word)
-            else None
-          }
-        }
 
 
 
