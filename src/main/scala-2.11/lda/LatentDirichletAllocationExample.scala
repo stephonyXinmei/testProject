@@ -82,8 +82,8 @@ object LatentDirichletAllocationExample {
 //      .reduceByKey(_ + _)
 
 
-    val path = "/chenrui/haha/"
-    tokenized.repartition(1).saveAsTextFile(path)
+    // val path = "/chenrui/haha/"
+    // tokenized.repartition(1).saveAsTextFile(path)
 //      .collect()
 //      .foreach(x => println("chenrui-log " + x))
 
