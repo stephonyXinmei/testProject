@@ -56,6 +56,7 @@ object LatentDirichletAllocationExample {
         .map{wordlist =>
 
           wordlist.flatMap{word =>
+            println("chenrui-log " + word)
             var flag = true
             for(letter <- word){
               if(!java.lang.Character.isLetter(letter.toChar))
