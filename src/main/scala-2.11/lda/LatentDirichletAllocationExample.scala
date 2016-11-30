@@ -2,7 +2,7 @@ package lda
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
-
+import java.lang.Character.isLetter
 import scala.collection.mutable
 
 // $example on$
@@ -51,23 +51,40 @@ object LatentDirichletAllocationExample {
 
     // Split each document into a sequence of terms (words)
     val tokenized: RDD[Seq[String]] =
-      corpus.map(_.toLowerCase.split("\\s+")).map(_.filter(_.length > 3).filter(_.forall(java.lang.Character.isLetter)))
+      corpus.map(_.toLowerCase.split("\\s+"))
+        .map(_.filter(_.length > 3))
+        .map{wordlist =>
+
+          wordlist.flatMap{word =>
+            var flag = true
+            for(letter <- word){
+              if(!java.lang.Character.isLetter(letter.toChar))
+                flag = false
+            }
+            if(flag)
+              Some(word)
+            else None
+          }
+        }
+
+
+
+
+//    (_.forall(java.lang.Character.isLetter(_))
 
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
     val termCounts/*: Array[(String, Long)]*/ = tokenized
+      .flatMap{wordlist =>
+        wordlist.map(x => (x, 1))
+      }
+      .reduceByKey(_ + _)
 
 
-      val path = "/chenrui/haha/"
-    termCounts.repartition(1).saveAsTextFile(path)
-
-
-      /*.flatMap{case x =>
-          x.map{yy => (yy, 1l)}
-      }*/
-      //.reduceByKey(_ + _)
-//      .collect()
-//        .foreach(x => println("chenrui-log " + x))
+//      val path = "/chenrui/haha/"
+//    termCounts.repartition(1).saveAsTextFile(path)
+      .collect()
+      .foreach(x => println("chenrui-log " + x))
 
 
       /*
