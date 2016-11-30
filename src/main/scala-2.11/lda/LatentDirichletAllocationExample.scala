@@ -52,6 +52,8 @@ object LatentDirichletAllocationExample {
     val numTopics = 10
     val lda = new LDA().setK(numTopics).setMaxIterations(10)
 
+    documents.saveAsTextFile("/chenrui/documents-records")
+
     val ldaModel = lda.run(documents)
 
     // Print topics, showing top-weighted 10 terms for each topic.
