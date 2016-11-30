@@ -16,93 +16,19 @@ object LatentDirichletAllocationExample {
 
     val conf = new SparkConf().setAppName("LatentDirichletAllocationExample")
     val sc = new SparkContext(conf)
+    val hdfs_dir = "hdfs:///hbase2hdfs/testLDA"
 
-    val hdfs_dir = "/hbase2hdfs/testLDA/"
-
-    // val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
-
-    val realPath = hdfs_dir + "/mini_newsgroups/*/*"
-    println("chenrui-log realPath " + realPath)
-    val haha = sc.wholeTextFiles(realPath)
-    println("chenrui-log haha " + haha.count())
-
-//      .saveAsTextFile("/chenrui/lala")
+    val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/*/*").map(_._2)
 
     // Split each document into a sequence of terms (words)
-    /*
     val tokenized: RDD[Seq[String]] =
-      corpus.map(_.toLowerCase.split("\\s+"))
-        .map(_.filter(_.length > 3))
-        .map{wordlist =>
-
-          wordlist.flatMap{word =>
-            println("chenrui-log " + word)
-            var flag = true
-            for(letter <- word){
-              if(!java.lang.Character.isLetter(letter.toChar))
-                flag = false
-            }
-            if(flag)
-              Some(word)
-            else None
-          }
-        }
-        */
-
-    /*
-    // $example on$
-    // Load and parse the data
-    val data = sc.textFile(hdfs_dir + "/sample_lda_data.txt")
-    val parsedData = data.map(s => Vectors.dense(s.trim.split(' ').map(_.toDouble)))
-    // Index documents with unique IDs
-    val corpus = parsedData.zipWithIndex.map(_.swap).cache()
-
-    // Cluster the documents into three topics using LDA
-    val ldaModel = new LDA().setK(3).run(corpus)
-
-    // Output topics. Each is a distribution over words (matching word count vectors)
-    println("Learned topics (as distributions over vocab of " + ldaModel.vocabSize + " words):")
-    val topics = ldaModel.topicsMatrix
-    for (topic <- Range(0, 3)) {
-      print("Topic " + topic + ":")
-      for (word <- Range(0, ldaModel.vocabSize)) { print(" " + topics(word, topic)); }
-      println()
-    }
-
-    // Save and load model.
-    ldaModel.save(sc, hdfs_dir + "/LDAModel")
-    // val sameModel = DistributedLDAModel.load(sc,
-    //   "target/lda/LatentDirichletAllocationExample/LDAModel")
-
-    sc.stop()
-    */
-
-    // Load documents from text files, 1 document per file
-
-
-
-
-//    (_.forall(java.lang.Character.isLetter(_))
+      corpus.map(_.toLowerCase.split("\\s+")).map(_.filter(_.length > 3).filter(_.forall(java.lang.Character.isLetter)))
 
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
-//    val termCounts/*: Array[(String, Long)]*/ = tokenized
-//      .flatMap{wordlist =>
-//        wordlist.map(x => (x, 1))
-//      }
-//      .reduceByKey(_ + _)
-
-
-    // val path = "/chenrui/haha/"
-    // tokenized.repartition(1).saveAsTextFile(path)
-//      .collect()
-//      .foreach(x => println("chenrui-log " + x))
-
-
-      /*
-      .sortBy(_._2)*/
-
-   /* //   vocabArray: Chosen vocab (removing common terms)
+    val termCounts: Array[(String, Long)] =
+    tokenized.flatMap(_.map(_ -> 1L)).reduceByKey(_ + _).collect().sortBy(-_._2)
+    //   vocabArray: Chosen vocab (removing common terms)
     val numStopwords = 20
     val vocabArray: Array[String] =
       termCounts.takeRight(termCounts.size - numStopwords).map(_._1)
@@ -136,7 +62,7 @@ object LatentDirichletAllocationExample {
         println(s"${vocabArray(term.toInt)}\t$weight")
       }
       println()
-    }*/
+    }
   }
 
   // scalastyle:on println
