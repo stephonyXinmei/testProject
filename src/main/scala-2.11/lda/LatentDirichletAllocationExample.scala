@@ -14,9 +14,11 @@ object LatentDirichletAllocationExample {
     val conf = new SparkConf().setAppName("LatentDirichletAllocationExample")
     val sc = new SparkContext(conf)
 
+    val hdfs_dir = "hdfs:///hbase2hdfs/testLDA"
+
     // $example on$
     // Load and parse the data
-    val data = sc.textFile("/Users/xm/Downloads/sample_lda_data.txt")
+    val data = sc.textFile(hdfs_dir + "/sample_lda_data.txt")
     val parsedData = data.map(s => Vectors.dense(s.trim.split(' ').map(_.toDouble)))
     // Index documents with unique IDs
     val corpus = parsedData.zipWithIndex.map(_.swap).cache()
@@ -34,9 +36,9 @@ object LatentDirichletAllocationExample {
     }
 
     // Save and load model.
-    ldaModel.save(sc, "target/lda/LatentDirichletAllocationExample/LDAModel")
-    val sameModel = DistributedLDAModel.load(sc,
-      "target/lda/LatentDirichletAllocationExample/LDAModel")
+    ldaModel.save(sc, hdfs_dir + "/LDAModel")
+    // val sameModel = DistributedLDAModel.load(sc,
+    //   "target/lda/LatentDirichletAllocationExample/LDAModel")
 
     sc.stop()
   }
