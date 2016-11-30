@@ -20,7 +20,13 @@ object LatentDirichletAllocationExample {
     val hdfs_dir = "/hbase2hdfs/testLDA/"
 
     // val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
-    sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").saveAsTextFile("/chenrui/lala")
+
+    val realPath = hdfs_dir + "/mini_newsgroups/"
+    println("chenrui-log realPath " + realPath)
+    val haha = sc.wholeTextFiles(realPath)
+    println("chenrui-log haha " + haha.count())
+
+//      .saveAsTextFile("/chenrui/lala")
 
     // Split each document into a sequence of terms (words)
     /*
