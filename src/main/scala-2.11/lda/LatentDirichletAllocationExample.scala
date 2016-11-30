@@ -59,7 +59,7 @@ object LatentDirichletAllocationExample {
       .flatMap{case x =>
           x.map{yy => (yy, 1l)}
       }
-      .reduceByKey(_ + _)
+      //.reduceByKey(_ + _)
       .collect()
         .foreach(x => println("chenrui-log " + x))
 
