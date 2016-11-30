@@ -65,6 +65,7 @@ object LatentDirichletAllocationExample {
       }
       println()
     }
+    sc.stop()
   }
 
   // scalastyle:on println
