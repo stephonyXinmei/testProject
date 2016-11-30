@@ -74,17 +74,17 @@ object LatentDirichletAllocationExample {
 
     // Choose the vocabulary.
     //   termCounts: Sorted list of (term, termCount) pairs
-    val termCounts/*: Array[(String, Long)]*/ = tokenized
-      .flatMap{wordlist =>
-        wordlist.map(x => (x, 1))
-      }
-      .reduceByKey(_ + _)
+//    val termCounts/*: Array[(String, Long)]*/ = tokenized
+//      .flatMap{wordlist =>
+//        wordlist.map(x => (x, 1))
+//      }
+//      .reduceByKey(_ + _)
 
 
-//      val path = "/chenrui/haha/"
-//    termCounts.repartition(1).saveAsTextFile(path)
-      .collect()
-      .foreach(x => println("chenrui-log " + x))
+    val path = "/chenrui/haha/"
+    tokenized.repartition(1).saveAsTextFile(path)
+//      .collect()
+//      .foreach(x => println("chenrui-log " + x))
 
 
       /*
