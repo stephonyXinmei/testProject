@@ -21,7 +21,7 @@ object LatentDirichletAllocationExample {
 
     // val corpus: RDD[String] = sc.wholeTextFiles(hdfs_dir + "/mini_newsgroups/").map(_._2)
 
-    val realPath = hdfs_dir + "/mini_newsgroups/"
+    val realPath = hdfs_dir + "/mini_newsgroups/*/*"
     println("chenrui-log realPath " + realPath)
     val haha = sc.wholeTextFiles(realPath)
     println("chenrui-log haha " + haha.count())
