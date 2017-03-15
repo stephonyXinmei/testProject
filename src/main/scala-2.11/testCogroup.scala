@@ -17,7 +17,7 @@ object testCogroup {
     val result = data1.cogroup(data2).collect()
 
     for (item <- result) {
-      print("ruic-log: " + result(item))
+      print("ruic-log: " + item)
     }
 
     sc.stop()
