@@ -14,7 +14,9 @@ object testCogroup {
 
     val data2 = sc.parallelize(List((1, "iteblog"), (2, "very")))
 
-    val result = data1.cogroup(data2).collect()
+//    val result = data1.cogroup(data2).collect()
+
+    val result = data1.join(data2)
 
     for (item <- result) {
       print("ruic-log: " + item + "\n")
