@@ -10,14 +10,14 @@ object testCogroup {
     val conf = new SparkConf().setAppName("cogroup-example")
     val sc = new SparkContext(conf)
 
-    val data1 = sc.parallelize(List((1, "www"), (2, "bbs")))
+    val data1 = sc.parallelize(List((1, "www"), (2, "bbs"), (2, "xoxo")))
 
     val data2 = sc.parallelize(List((1, "iteblog"), (2, "very")))
 
     val result = data1.cogroup(data2).collect()
 
     for (item <- result) {
-      print("ruic-log: " + item)
+      print("ruic-log: " + item + "\n")
     }
 
     sc.stop()
