@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ANTAREZ-KNN:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ANTAREZ_KNN_jar</output-path>
+    <root id="archive" name="ANTAREZ-KNN.jar">
+      <element id="module-output" name="ANTAREZ-KNN" />
+      <element id="extracted-dir" path="$USER_HOME$/JARs/commons-io-1.3.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/JARs/hadoop-common-2.7.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/JARs/hadoop-mapreduce-client-core-2.7.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
